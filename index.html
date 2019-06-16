@@ -94,7 +94,7 @@
     const params = (new URL(window.location.href)).searchParams;
     const save_last = !!params.get('save_last');
     const request = new XMLHttpRequest();
-    const url = "http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&" +
+    const url = "https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&" +
         "limit=1&" +
         "user=" + (params.get('user') || "jag_k") + "&" +
         "api_key=" + (params.get('api_key') || "1ad39e0e00505f78bc3483198dc9097c") + "&" +
