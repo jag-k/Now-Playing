@@ -115,11 +115,13 @@
                 let data = JSON.parse(request.responseText);
                 let track = data.recenttracks.track[0];
                 if ("@attr" in track && "nowplaying" in track['@attr'] && track['@attr'].nowplaying) {
-                    document.getElementById("music").style.display = "flex";
-
-                    elems.artist.innerText = track.artist['#text'];
-                    elems.album.innerText = track.album['#text'];
-                    elems.track.innerText = track.name;
+                    if (!bgOnly) {
+                        document.getElementById("music").style.display = "flex";
+                        
+                        elems.artist.innerText = track.artist['#text'];
+                        elems.album.innerText = track.album['#text'];
+                        elems.track.innerText = track.name;
+                    }
 
                     let cover = track.image[3]['#text'];
                     elems.cover.setAttribute("src", cover);
