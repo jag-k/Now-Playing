@@ -1,210 +1,243 @@
 <!DOCTYPE html>
 <html lang="ru">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Now Playing</title>
     <style>
-        body, html {
-            height: 100%;
-            margin: 0;
-            font-family: Arial, Helvetica, sans-serif;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: cover;
-        }
+      body, html {
+          height: 100%;
+          margin: 0;
+          font-family: Arial, Helvetica, sans-serif;
+          background-position: center;
+          background-repeat: no-repeat;
+          background-size: cover;
+      }
 
-        * {
-            box-sizing: border-box;
-        }
+      * {
+          box-sizing: border-box;
+      }
 
-        #bg-image {
-            /* Add the blur effect */
-            filter: blur(5px);
-            -webkit-filter: blur(5px);
+      #bg-image {
+          /* Add the blur effect */
+          filter: blur(5px);
+          -webkit-filter: blur(5px);
 
-            /* Full height */
-            height: 100%;
+          /* Full height */
+          height: 100%;
 
-            /* Center and scale the image nicely */
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: cover;
-        }
+          /* Center and scale the image nicely */
+          background-position: center;
+          background-repeat: no-repeat;
+          background-size: cover;
+      }
 
 
-        #music {
-            display: -webkit-flex;
-            display: -moz-flex;
-            display: -ms-flex;
-            display: -o-flex;
-            display: flex;
-            flex-direction: row;
+      #music {
+          display: -webkit-flex;
+          display: -moz-flex;
+          display: -ms-flex;
+          display: -o-flex;
+          display: flex;
+          flex-direction: row;
 
-        }
+      }
 
-        .border-radius {
-            border-radius: 25px;
-        }
+      .border-radius {
+          border-radius: 25px;
+      }
 
-        #music {
-            background-color: rgba(0, 0, 0, 0.34); /* Black w/opacity/see-through */
-            padding: 20px;
-            text-align: center;
-        }
+      #music {
+          background-color: rgba(0, 0, 0, 0.34); /* Black w/opacity/see-through */
+          padding: 20px;
+          text-align: center;
+      }
 
-        .center {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 2;
-        }
+      .center {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          z-index: 2;
+      }
 
-        #cover {
-            height: 100%;
-            border-radius: 25px;
-        }
+      #cover {
+          height: 100%;
+          border-radius: 25px;
+      }
 
-        .text {
-            align-self: center;
-            margin: 10px;
-            font-family: "PT Sans", sans-serif;
-            font-size: xx-large;
-        }
-        .text_block{
-            color: white;
-            display: block;
-            margin: 5px 0;
-            text-align: left;
-        }
+      .text {
+          align-self: center;
+          margin: 10px;
+          font-family: "PT Sans", sans-serif;
+          font-size: xx-large;
+      }
+      .text_block{
+          color: white;
+          display: block;
+          margin: 5px 0;
+          text-align: left;
+      }
     </style>
-</head>
-<body>
-<div id="bg-image"></div>
+  </head>
+  <body>
+    <div id="bg-image"></div>
 
-<div id="music" style="display: none; height: 200px" class="center border-radius">
-    <img id="cover" class="border-radius" style="display: none" src="" alt="cover" />
-    <div class="text">
-        <span id="artist" class="text_block" style="font-weight: bold; font-size: 1.12em;"></span>
+    <div
+      id="music"
+      style="display: none; height: 200px"
+      class="center border-radius"
+    >
+      <img
+        id="cover"
+        class="border-radius"
+        style="display: none"
+        src=""
+        alt="cover"
+      />
+      <div class="text">
+        <span
+          id="artist"
+          class="text_block"
+          style="font-weight: bold; font-size: 1.12em;"
+        ></span>
         <span id="track" class="text_block"></span>
-        <span id="album" class="text_block" style="font-style: oblique; font-size: .6em"></span>
+        <span
+          id="album"
+          class="text_block"
+          style="font-style: oblique; font-size: .6em"
+        ></span>
+      </div>
     </div>
-</div>
-<script>
-    const params = (new URL(window.location.href)).searchParams;
-    const save_last = !!params.get('save_last');
-    const bgOnly = !!params.get('bg-only');
-    const request = new XMLHttpRequest();
-    const url = "https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&" +
+    <script>
+      const params = new URL(window.location.href).searchParams;
+      const save_last = !!params.get("save_last");
+      const bgOnly = !!params.get("bg-only");
+      const request = new XMLHttpRequest();
+      const url =
+        "https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&" +
         "limit=1&" +
-        "user=" + (params.get('user') || "jag_k") + "&" +
-        "api_key=" + (params.get('api_key') || "1ad39e0e00505f78bc3483198dc9097c") + "&" +
+        "user=" +
+        (params.get("user") || "jag_k") +
+        "&" +
+        "api_key=" +
+        (params.get("api_key") || "1ad39e0e00505f78bc3483198dc9097c") +
+        "&" +
         "format=json";
 
-    const elems = {
-        "bg": document.getElementById('bg-image'),
-        "cover": document.getElementById("cover"),
-        "artist": document.getElementById("artist"),
-        "track": document.getElementById("track"),
-        "album": document.getElementById("album"),
-    };
+      const elems = {
+        bg: document.getElementById("bg-image"),
+        cover: document.getElementById("cover"),
+        artist: document.getElementById("artist"),
+        track: document.getElementById("track"),
+        album: document.getElementById("album"),
+      };
 
-    function responseLoad() {
+      function responseLoad() {
         if (request.readyState === 4) {
-            if (request.status === 200) {
-                let data = JSON.parse(request.responseText);
-                let track = data.recenttracks.track[0];
-                if ("@attr" in track && "nowplaying" in track['@attr'] && track['@attr'].nowplaying) {
-                    if (!bgOnly) {
-                        document.getElementById("music").style.display = "flex";
-                        
-                        elems.artist.innerText = track.artist['#text'];
-                        elems.album.innerText = track.album['#text'];
-                        elems.track.innerText = track.name;
-                    }
+          if (request.status === 200) {
+            let data = JSON.parse(request.responseText);
+            let track = data.recenttracks.track[0];
+            if (
+              "@attr" in track &&
+              "nowplaying" in track["@attr"] &&
+              track["@attr"].nowplaying
+            ) {
+              if (!bgOnly) {
+                document.getElementById("music").style.display = "flex";
+                elems.artist.innerText = track.artist["#text"];
+                elems.album.innerText = track.album["#text"];
+                elems.track.innerText = track.name;
+              }
 
-                    let cover = track.image[3]['#text'];
-                    elems.cover.setAttribute("src", cover);
-                    if (!params.get('small')) {
-                        elems.bg.style.backgroundImage = "url(" + cover + ")";
-                        document.body.style.backgroundImage = "url(" + cover + ")";
-                    }
-                    elems.cover.style.display = elems.cover.getAttribute("src") ? "block" : "none";
-
-                } else if (!save_last) {
-                    document.getElementById("music").style.display = "none";
-                    elems.bg.style.backgroundImage = "";
-                    document.body.style.backgroundImage = "";
+              let cover = track.image[3]["#text"];
+              if (!bgOnly) {
+                elems.cover.setAttribute("src", cover);
+              }
+              if (!params.get("small")) {
+                if (!bgOnly) {
+                  elems.bg.style.backgroundImage = "url(" + cover + ")";
                 }
-
+                document.body.style.backgroundImage = "url(" + cover + ")";
+              }
+              elems.cover.style.display = elems.cover.getAttribute("src")
+                ? "block"
+                : "none";
+            } else if (!save_last) {
+              document.getElementById("music").style.display = "none";
+              elems.bg.style.backgroundImage = "";
+              document.body.style.backgroundImage = "";
             }
+          }
         }
-    }
+      }
 
-
-    main = () => {
+      main = () => {
         request.open("get", url);
-        request.send()
-    };
+        request.send();
+      };
 
-    request.onload = responseLoad;
-    main();
-    setInterval(main, +params.get('time') || 1000);
-    if (bgOnly) {
-        document.getElementById('music').remove();
-    } else {
-
-        if (params.get('small')) {
-            elems.bg.remove();
-            document.getElementById('music').classList.remove('center')
+      request.onload = responseLoad;
+      main();
+      setInterval(main, +params.get("time") || 1000);
+      if (bgOnly) {
+        document.getElementById("music").remove();
+      } else {
+        if (params.get("small")) {
+          elems.bg.remove();
+          document.getElementById("music").classList.remove("center");
         }
-        if (params.get('no-border-radius')) {
-            document.getElementById('music').classList.remove('border-radius')
+        if (params.get("no-border-radius")) {
+          document.getElementById("music").classList.remove("border-radius");
         }
-    }
+      }
 
-    // HIDE CURSOR
-    let mouseTimer = null, cursorVisible = true;
+      // HIDE CURSOR
+      let mouseTimer = null,
+        cursorVisible = true;
 
-    function disappearCursor() {
+      function disappearCursor() {
         mouseTimer = null;
         document.body.style.cursor = "none";
         cursorVisible = false;
-    }
+      }
 
-    document.onmousemove = function() {
+      document.onmousemove = function () {
         if (mouseTimer) {
-            window.clearTimeout(mouseTimer);
+          window.clearTimeout(mouseTimer);
         }
         if (!cursorVisible) {
-            document.body.style.cursor = "default";
-            cursorVisible = true;
+          document.body.style.cursor = "default";
+          cursorVisible = true;
         }
         mouseTimer = window.setTimeout(disappearCursor, 3000);
-    };
-    mouseTimer = window.setTimeout(disappearCursor, 3000);
+      };
+      mouseTimer = window.setTimeout(disappearCursor, 3000);
 
-    function toggleFullScreen() {
-        if ((document.fullScreenElement && document.fullScreenElement !== null) ||
-            (!document.mozFullScreen && !document.webkitIsFullScreen)) {
-            if (document.documentElement.requestFullScreen) {
-                document.documentElement.requestFullScreen();
-            } else if (document.documentElement.mozRequestFullScreen) {
-                document.documentElement.mozRequestFullScreen();
-            } else if (document.documentElement.webkitRequestFullScreen) {
-                document.documentElement.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
-            }
+      function toggleFullScreen() {
+        if (
+          (document.fullScreenElement && document.fullScreenElement !== null) ||
+          (!document.mozFullScreen && !document.webkitIsFullScreen)
+        ) {
+          if (document.documentElement.requestFullScreen) {
+            document.documentElement.requestFullScreen();
+          } else if (document.documentElement.mozRequestFullScreen) {
+            document.documentElement.mozRequestFullScreen();
+          } else if (document.documentElement.webkitRequestFullScreen) {
+            document.documentElement.webkitRequestFullScreen(
+              Element.ALLOW_KEYBOARD_INPUT
+            );
+          }
         } else {
-            if (document.cancelFullScreen) {
-                document.cancelFullScreen();
-            } else if (document.mozCancelFullScreen) {
-                document.mozCancelFullScreen();
-            } else if (document.webkitCancelFullScreen) {
-                document.webkitCancelFullScreen();
-            }
+          if (document.cancelFullScreen) {
+            document.cancelFullScreen();
+          } else if (document.mozCancelFullScreen) {
+            document.mozCancelFullScreen();
+          } else if (document.webkitCancelFullScreen) {
+            document.webkitCancelFullScreen();
+          }
         }
-    }
-    document.addEventListener("click", toggleFullScreen)
-</script>
-</body>
+      }
+      document.addEventListener("click", toggleFullScreen);
+    </script>
+  </body>
 </html>
