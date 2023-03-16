@@ -93,6 +93,7 @@
 <script>
     const params = (new URL(window.location.href)).searchParams;
     const save_last = !!params.get('save_last');
+    const bgOnly = !!params.get('bg-only');
     const request = new XMLHttpRequest();
     const url = "https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&" +
         "limit=1&" +
@@ -147,12 +148,17 @@
     request.onload = responseLoad;
     main();
     setInterval(main, +params.get('time') || 1000);
-    if (params.get('small')) {
-        elems.bg.remove();
-        document.getElementById('music').classList.remove('center')
-    }
-    if (params.get('no-border-radius')) {
-        document.getElementById('music').classList.remove('border-radius')
+    if (bgOnly) {
+        document.getElementById('music').remove();
+    } else {
+
+        if (params.get('small')) {
+            elems.bg.remove();
+            document.getElementById('music').classList.remove('center')
+        }
+        if (params.get('no-border-radius')) {
+            document.getElementById('music').classList.remove('border-radius')
+        }
     }
 
     // HIDE CURSOR
